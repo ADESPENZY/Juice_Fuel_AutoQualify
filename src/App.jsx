@@ -6,7 +6,8 @@ const initialForm = {
   fullName: '',
   email: '',
   phone: '',
-  cityState: '',
+  territoryInterest: '',
+  cityStateOther: '',
   referralSource: '',
   ownedBusiness: '',
   businessType: '',
@@ -17,12 +18,12 @@ const initialForm = {
   financing: '',
   creditScore: '',
   fddReviewed: '',
-  marketArea: '',
+  marketConnections: '',
   marketWhy: '',
   timeline: '',
   training: '',
   franchiseWhy: '',
-  communityMeaning: '',
+  first50plan: '',
   outreach: '',
 }
 
@@ -33,13 +34,33 @@ const statCards = [
 ]
 
 const aboutSources = [
-  'Social Media',
-  'Podcast/YouTube',
-  'Franchise Expo',
+  'Instagram / TikTok',
+  'YouTube (Codie Sanchez, Bright Innovates, etc.)',
+  'Podcast',
+  'Franchise Expo / Trade Show',
   'Referral from existing franchisee',
-  'News/Press',
+  'News / Press (CNBC, local news, etc.)',
   'Google Search',
+  'LinkedIn',
   'Other',
+]
+
+const territoryOptions = [
+  'Charleston, SC (HQ market)',
+  'Austin, TX',
+  'Chandler / East Valley, AZ',
+  'Rhode Island',
+  'Florida - East Coast',
+  'Florida - West Coast',
+  'Georgia',
+  'North Carolina',
+  "Other - my market isn't listed",
+]
+
+const marketConnectionOptions = [
+  'Yes - I live there or have strong local ties',
+  "Somewhat - I know the area but don't live there",
+  "No - but I've researched it and I'm ready to relocate or travel",
 ]
 
 const backgroundOptions = [
@@ -314,7 +335,15 @@ function validateStep(step, form) {
       nextErrors.email = 'Please enter a valid email address.'
     }
     if (!form.phone.trim()) nextErrors.phone = 'Phone number is required.'
-    if (!form.cityState.trim()) nextErrors.cityState = 'City and state are required.'
+    if (!form.territoryInterest) {
+      nextErrors.territoryInterest = 'Please choose a target territory.'
+    }
+    if (
+      form.territoryInterest === "Other - my market isn't listed" &&
+      !form.cityStateOther.trim()
+    ) {
+      nextErrors.cityStateOther = 'Please tell us what city/state you want.'
+    }
     if (!form.referralSource) {
       nextErrors.referralSource = 'Please tell us how you heard about Juiced Fuel.'
     }
@@ -342,8 +371,8 @@ function validateStep(step, form) {
   }
 
   if (step === 4) {
-    if (!form.marketArea.trim()) {
-      nextErrors.marketArea = 'Please enter a target city or metro area.'
+    if (!form.marketConnections) {
+      nextErrors.marketConnections = 'Please choose your connection to the market.'
     }
     if (!form.marketWhy.trim()) {
       nextErrors.marketWhy = 'Tell us why this market stands out to you.'
@@ -358,9 +387,8 @@ function validateStep(step, form) {
     } else if (form.franchiseWhy.trim().length < 50) {
       nextErrors.franchiseWhy = 'Please give us a bit more detail - at least 50 characters.'
     }
-    if (!form.communityMeaning.trim()) {
-      nextErrors.communityMeaning =
-        'Please share what community means to you in business.'
+    if (!form.first50plan.trim()) {
+      nextErrors.first50plan = 'Please share your rough game plan.'
     }
     if (!form.outreach) nextErrors.outreach = 'Please choose an outreach answer.'
   }
@@ -543,8 +571,11 @@ function App() {
                         <TextInput label="Full Name" value={form.fullName} onChange={(value) => setField('fullName', value)} error={errors.fullName} required />
                         <TextInput label="Email Address" type="email" value={form.email} onChange={(value) => setField('email', value)} error={errors.email} required />
                         <TextInput label="Phone Number" type="tel" value={form.phone} onChange={(value) => setField('phone', value)} error={errors.phone} required />
-                        <TextInput label="City & State you're interested in" value={form.cityState} onChange={(value) => setField('cityState', value)} error={errors.cityState} required />
+                        <SelectInput label="Which Juiced Fuel territory are you interested in?" value={form.territoryInterest} onChange={(value) => setField('territoryInterest', value)} options={territoryOptions} error={errors.territoryInterest} required />
                       </div>
+                      {form.territoryInterest === "Other - my market isn't listed" && (
+                        <TextInput label="What city/state are you interested in?" value={form.cityStateOther} onChange={(value) => setField('cityStateOther', value)} error={errors.cityStateOther} required />
+                      )}
                       <SelectInput label="How did you hear about Juiced Fuel?" value={form.referralSource} onChange={(value) => setField('referralSource', value)} options={aboutSources} error={errors.referralSource} required />
                     </StepLayout>
                   )}
@@ -564,6 +595,7 @@ function App() {
                       <RadioCards label="Are you looking to be a hands-on owner-operator or an investor/semi-absentee?" value={form.ownerType} onChange={(value) => setField('ownerType', value)} options={ownerOptions} error={errors.ownerType} />
                       <FlagHints items={[
                         form.professionalBackground === 'Military/Veteran' ? { tone: 'green', text: 'Veteran background is a strong alignment signal for the Juiced Fuel team.' } : null,
+                        form.ownerType === 'Owner-Operator' ? { tone: 'green', text: 'Owner-operators tend to build the strongest territories. This is a great signal.' } : null,
                         form.ownerType === 'Semi-Absentee' ? { tone: 'yellow', text: 'Semi-absentee ownership is possible, but the brand prefers hands-on operators early.' } : null,
                       ].filter(Boolean)} />
                     </StepLayout>
@@ -573,7 +605,7 @@ function App() {
                     <StepLayout
                       eyebrow="Step 4"
                       title="Financial Readiness"
-                      description="We ask these questions to make sure we're both set up for success. All information is kept confidential."
+                      description="Straight talk: this is the step that filters most applicants. We need to know you can launch strong. All information is kept confidential."
                     >
                       <SelectInput label="What is your estimated liquid capital available for investment?" value={form.liquidCapital} onChange={(value) => setField('liquidCapital', value)} options={capitalOptions} error={errors.liquidCapital} />
                       <RadioCards label="Are you open to financing options (e.g., truck leasing)?" value={form.financing} onChange={(value) => setField('financing', value)} options={financingOptions} error={errors.financing} />
@@ -593,10 +625,10 @@ function App() {
                       title="Market & Availability"
                       description="Market conviction matters. We want to see both local enthusiasm and realistic readiness."
                     >
-                      <TextInput label="What specific city/metro area are you interested in?" value={form.marketArea} onChange={(value) => setField('marketArea', value)} error={errors.marketArea} />
-                      <TextAreaInput label="Why does this market excite you?" value={form.marketWhy} onChange={(value) => setField('marketWhy', value)} error={errors.marketWhy} rows={4} placeholder="Share local demand, personal ties, growth potential, or why you believe Juiced Fuel can win there." />
+                      <RadioCards label="Do you have existing personal or business connections in your target market?" value={form.marketConnections} onChange={(value) => setField('marketConnections', value)} options={marketConnectionOptions} error={errors.marketConnections} />
+                      <TextAreaInput label="Why does your target market excite you?" value={form.marketWhy} onChange={(value) => setField('marketWhy', value)} error={errors.marketWhy} rows={4} placeholder="Share local demand, personal ties, growth potential, or why you believe Juiced Fuel can win there." />
                       <SelectInput label="When are you looking to launch?" value={form.timeline} onChange={(value) => setField('timeline', value)} options={timelineOptions} error={errors.timeline} />
-                      <RadioCards label="Are you available to attend in-person training at our Charleston, SC headquarters?" value={form.training} onChange={(value) => setField('training', value)} options={trainingOptions} error={errors.training} />
+                      <RadioCards label="Training happens at our Charleston, SC headquarters (typically 3-5 days). Can you make that work?" value={form.training} onChange={(value) => setField('training', value)} options={trainingOptions} error={errors.training} />
                       <FlagHints items={[
                         form.timeline === 'Just exploring for now' ? { tone: 'yellow', text: 'Exploratory timing can still be a fit, but it usually points to a slower path.' } : null,
                         form.training === 'This would be difficult' ? { tone: 'red', text: 'In-person training at headquarters is a required part of launch readiness.' } : null,
@@ -608,10 +640,10 @@ function App() {
                     <StepLayout
                       eyebrow="Step 6"
                       title='The "Why" Question'
-                      description="This is where brand fit shows up. Caroline cares deeply about founder alignment, community, and grit."
+                      description="Last step before we review. This is where we see if the values match - not just the numbers."
                     >
                       <TextAreaInput label="Why do you want to be a Juiced Fuel franchisee?" value={form.franchiseWhy} onChange={(value) => setField('franchiseWhy', value)} error={errors.franchiseWhy} rows={5} helper={`${form.franchiseWhy.trim().length}/50 minimum characters`} />
-                      <TextAreaInput label='What does "community" mean to you in the context of business?' value={form.communityMeaning} onChange={(value) => setField('communityMeaning', value)} error={errors.communityMeaning} rows={4} />
+                      <TextAreaInput label="How would you get your first 50 customers in your market? Give us your rough game plan." value={form.first50plan} onChange={(value) => setField('first50plan', value)} error={errors.first50plan} rows={4} placeholder="Example: I'd partner with local marinas, hit up HOA communities, sponsor a little league team..." />
                       <RadioCards label="Are you comfortable with door-to-door or direct community outreach in the early days?" value={form.outreach} onChange={(value) => setField('outreach', value)} options={outreachOptions} error={errors.outreach} />
                       <FlagHints items={[
                         form.outreach === "I'd prefer not to" ? { tone: 'red', text: 'Early traction depends heavily on grassroots local outreach and community presence.' } : null,
@@ -637,7 +669,7 @@ function App() {
                             </div>
                           </div>
                           <div className="grid gap-4 sm:grid-cols-2">
-                            <SummaryItem label="Location" value={form.cityState || form.marketArea} />
+                            <SummaryItem label="Location" value={form.territoryInterest === "Other - my market isn't listed" ? form.cityStateOther : form.territoryInterest} />
                             <SummaryItem label="Capital Range" value={form.liquidCapital} />
                             <SummaryItem label="Timeline" value={form.timeline} />
                             <SummaryItem label="Owner Type" value={form.ownerType} />
@@ -653,10 +685,14 @@ function App() {
                             <div className={`inline-flex rounded-full border px-4 py-2 text-sm font-semibold shadow-sm ${scoreTone.badge}`}>
                               {scorecard.rating}
                             </div>
+                            <p className="text-xs font-medium uppercase tracking-[0.18em] text-[#1A1A1A]/40">
+                              {scorecard.totalPoints}/65 points
+                            </p>
                             <p className="max-w-md text-sm leading-7 text-[#1A1A1A]/70">{scorecard.explanation}</p>
                             <p className="rounded-2xl bg-white/70 px-4 py-3 text-sm leading-7 text-[#1A1A1A]/75">{scorecard.message}</p>
                           </div>
                           <div className="mt-6 grid gap-3">
+                            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-[#1A1A1A]/50">What we're evaluating</p>
                             {scorecard.items.map((item) => (
                               <div key={item.name} className="flex items-start justify-between gap-3 rounded-2xl bg-white/80 px-4 py-3">
                                 <div>
@@ -743,9 +779,6 @@ function StepLayout({ eyebrow, title, description, children }) {
         <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#FF6B1A]">{eyebrow}</p>
         <h2 className="mt-3 text-3xl font-bold tracking-[-0.05em] text-[#1A1A1A] sm:text-4xl">{title}</h2>
         <p className="mt-3 max-w-3xl text-[15px] leading-8 text-[#1A1A1A]/68 sm:text-base">{description}</p>
-        <div className="mt-4 inline-flex rounded-full border border-[#1A1A1A]/8 bg-[#fff8f2] px-4 py-2 text-xs font-medium text-[#1A1A1A]/55">
-          Answer honestly. The goal is alignment, not perfection.
-        </div>
       </div>
       <div className="space-y-5">{children}</div>
     </div>
@@ -826,19 +859,37 @@ function RadioCards({ label, value, onChange, options, error }) {
               key={option}
               type="button"
               onClick={() => onChange(option)}
-              className={`flex min-h-14 items-center justify-between gap-3 rounded-[24px] border px-4 py-3 text-left transition-all duration-200 hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-[#FF6B1A]/15 ${
+              className={`group relative overflow-hidden rounded-[26px] border text-left transition-all duration-200 hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-[#FF6B1A]/15 ${
                 selected
-                  ? 'border-[#FF6B1A] bg-[#FFF2E9] shadow-[0_14px_30px_rgba(255,107,26,0.12)]'
-                  : 'border-[#1A1A1A]/12 bg-[#fffdfa] hover:border-[#FF6B1A]/35'
+                  ? 'border-[#FF6B1A] bg-[linear-gradient(135deg,#fff1e7,#ffffff)] shadow-[0_18px_40px_rgba(255,107,26,0.16)]'
+                  : 'border-[#1A1A1A]/12 bg-[linear-gradient(180deg,#fffdfa,#fff7f0)] hover:border-[#FF6B1A]/35 hover:shadow-[0_14px_30px_rgba(26,26,26,0.06)]'
               }`}
             >
-              <span className="text-sm font-medium leading-6 text-[#1A1A1A]">{option}</span>
-              <span className={`flex h-6 w-6 items-center justify-center rounded-full border ${
-                selected
-                  ? 'border-[#FF6B1A] bg-[#FF6B1A] text-white'
-                  : 'border-[#1A1A1A]/15 bg-white text-transparent'
-              }`}>
-                ✓
+              <span
+                className={`absolute inset-x-0 top-0 h-1 transition-all ${
+                  selected ? 'bg-[#FF6B1A]' : 'bg-transparent group-hover:bg-[#FF6B1A]/30'
+                }`}
+              />
+              <span className="flex min-h-16 items-center justify-between gap-3 px-4 py-4">
+                <span className="pr-2">
+                  <span className="block text-sm font-semibold leading-6 text-[#1A1A1A]">
+                    {option}
+                  </span>
+                  <span className="mt-1 block text-xs leading-5 text-[#1A1A1A]/45">
+                    Tap to select this answer
+                  </span>
+                </span>
+                <span
+                  className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-all ${
+                    selected
+                      ? 'border-[#FF6B1A] bg-[#FF6B1A] text-white shadow-md shadow-[#FF6B1A]/25'
+                      : 'border-[#1A1A1A]/12 bg-white text-transparent group-hover:border-[#FF6B1A]/40'
+                  }`}
+                >
+                  <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="3">
+                    <path d="m5 12 4.2 4.2L19 6.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
               </span>
             </button>
           )
@@ -913,6 +964,7 @@ function ScoreRing({ percent, value, color }) {
   const radius = 74
   const circumference = 2 * Math.PI * radius
   const dashOffset = circumference - (percent / 100) * circumference
+  const scoreLabel = value >= 50 ? 'STRONG' : value >= 30 ? 'REVIEW' : 'LOW'
 
   return (
     <div className="relative flex h-52 w-52 items-center justify-center">
@@ -932,7 +984,7 @@ function ScoreRing({ percent, value, color }) {
         />
       </svg>
       <div className="absolute text-center">
-        <div className="text-5xl font-black tracking-[-0.06em] text-[#1A1A1A]">{value}</div>
+        <div className="text-3xl font-black tracking-[0.16em] text-[#1A1A1A]">{scoreLabel}</div>
         <div className="mt-2 text-xs font-semibold uppercase tracking-[0.3em] text-[#1A1A1A]/45">Qualification Score</div>
       </div>
     </div>
@@ -984,6 +1036,14 @@ function ConfirmationScreen() {
         <p className="mt-4 text-base leading-8 text-[#1A1A1A]/68">
           Your franchise pre-qualification form has been received. If your profile feels aligned, the Juiced Fuel team will follow up with warmth, clarity, and next steps.
         </p>
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <a href="https://instagram.com/juicedfuel" target="_blank" rel="noreferrer" className="rounded-full border border-[#1A1A1A]/10 bg-white px-4 py-2 text-sm font-medium text-[#1A1A1A]/70 transition-all hover:border-[#FF6B1A] hover:text-[#FF6B1A]">
+            Follow on Instagram
+          </a>
+          <a href="https://juicedfuel.com" target="_blank" rel="noreferrer" className="rounded-full border border-[#1A1A1A]/10 bg-white px-4 py-2 text-sm font-medium text-[#1A1A1A]/70 transition-all hover:border-[#FF6B1A] hover:text-[#FF6B1A]">
+            Visit juicedfuel.com
+          </a>
+        </div>
       </div>
     </div>
   )
