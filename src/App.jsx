@@ -804,25 +804,122 @@ function TextInput({ label, value, onChange, error, required, type = 'text', pla
 }
 
 function SelectInput({ label, value, onChange, options, error, required }) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  useEffect(() => {
+    if (!isOpen) return undefined
+
+    const originalOverflow = document.body.style.overflow
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') setIsOpen(false)
+    }
+
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', handleEscape)
+
+    return () => {
+      document.body.style.overflow = originalOverflow
+      window.removeEventListener('keydown', handleEscape)
+    }
+  }, [isOpen])
+
   return (
-    <label className="block">
+    <div className="block">
       <FieldLabel label={label} required={required} />
-      <select
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
+      <button
+        type="button"
+        onClick={() => setIsOpen(true)}
         className={`min-h-14 w-full rounded-[22px] border bg-[#fffdfa] px-4 py-3 text-base text-[#1A1A1A] outline-none transition-all duration-200 focus:border-[#FF6B1A] focus:bg-white focus:ring-4 focus:ring-[#FF6B1A]/15 ${
           error ? 'border-red-300' : 'border-[#1A1A1A]/12'
         }`}
       >
-        <option value="">Select an option</option>
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
+        <span className="flex items-center justify-between gap-4">
+          <span className={`text-left ${value ? 'text-[#1A1A1A]' : 'text-[#1A1A1A]/35'}`}>
+            {value || 'Select an option'}
+          </span>
+          <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 text-[#1A1A1A]/45" fill="none" stroke="currentColor" strokeWidth="2.2">
+            <path d="m6 9 6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </span>
+      </button>
       <FieldError error={error} />
-    </label>
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-[#1A1A1A]/45 p-3 sm:p-6">
+          <button
+            type="button"
+            aria-label="Close"
+            className="absolute inset-0 cursor-default"
+            onClick={() => setIsOpen(false)}
+          />
+          <div className="relative max-h-[82vh] w-full max-w-2xl overflow-hidden rounded-[32px] border border-white/70 bg-[linear-gradient(180deg,#fffaf6,#ffffff)] shadow-[0_30px_90px_rgba(26,26,26,0.22)]">
+            <div className="border-b border-[#1A1A1A]/8 px-5 py-4 sm:px-6">
+              <div className="mx-auto mb-4 h-1.5 w-14 rounded-full bg-[#1A1A1A]/10" />
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#FF6B1A]">
+                    Choose One
+                  </p>
+                  <h3 className="mt-2 text-2xl font-bold tracking-[-0.04em] text-[#1A1A1A]">
+                    {label}
+                  </h3>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsOpen(false)}
+                  className="rounded-full border border-[#1A1A1A]/10 bg-white px-3 py-2 text-sm font-medium text-[#1A1A1A]/60 transition-all hover:border-[#FF6B1A] hover:text-[#FF6B1A]"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+            <div className="max-h-[58vh] overflow-y-auto px-4 py-4 sm:px-5">
+              <div className="grid gap-3">
+                {options.map((option) => {
+                  const selected = value === option
+                  return (
+                    <button
+                      key={option}
+                      type="button"
+                      onClick={() => {
+                        onChange(option)
+                        setIsOpen(false)
+                      }}
+                      className={`group relative overflow-hidden rounded-[24px] border px-4 py-4 text-left transition-all duration-200 ${
+                        selected
+                          ? 'border-[#FF6B1A] bg-[linear-gradient(135deg,#fff1e7,#ffffff)] shadow-[0_18px_40px_rgba(255,107,26,0.14)]'
+                          : 'border-[#1A1A1A]/10 bg-white hover:-translate-y-0.5 hover:border-[#FF6B1A]/35 hover:shadow-[0_14px_30px_rgba(26,26,26,0.07)]'
+                      }`}
+                    >
+                      <span
+                        className={`absolute inset-x-0 top-0 h-1 ${
+                          selected ? 'bg-[#FF6B1A]' : 'bg-transparent'
+                        }`}
+                      />
+                      <span className="flex items-center justify-between gap-4">
+                        <span className="text-sm font-semibold leading-6 text-[#1A1A1A] sm:text-base">
+                          {option}
+                        </span>
+                        <span
+                          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border ${
+                            selected
+                              ? 'border-[#FF6B1A] bg-[#FF6B1A] text-white'
+                              : 'border-[#1A1A1A]/10 bg-[#fff8f2] text-transparent'
+                          }`}
+                        >
+                          <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="3">
+                            <path d="m5 12 4.2 4.2L19 6.8" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </span>
+                      </span>
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   )
 }
 
