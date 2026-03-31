@@ -531,7 +531,7 @@ function App() {
               {submitted ? (
                 <ConfirmationScreen />
               ) : (
-                <div className="relative px-4 pb-32 pt-5 sm:px-8 sm:pb-36 sm:pt-8">
+                <div className="relative px-4 pb-8 pt-5 sm:px-8 sm:pb-10 sm:pt-8">
                   {step === 0 && <WelcomeStep />}
                   {step === 1 && (
                     <StepLayout
@@ -706,14 +706,14 @@ function WelcomeStep() {
           Welcome. If you are here, you are probably looking for more than just a business.
         </h2>
         <p className="mt-5 max-w-2xl text-[15px] leading-8 text-[#1A1A1A]/70 sm:text-lg">
-          Juiced Fuel is growing fast, but this is not about filling territories with just anyone. It is about finding people who care about service, community, grit, and building something they can be proud of in their own city.
+          I built this first step to feel personal, clear, and respectful. Juiced Fuel is growing fast, but I am not looking to hand territories to just anyone. I am looking for people who care about service, community, grit, and building something they can be proud of in their own city.
         </p>
         <div className="mt-5 rounded-[30px] border border-[#FF6B1A]/12 bg-[linear-gradient(135deg,#fff4ec,#ffffff)] px-5 py-5 shadow-[0_18px_50px_rgba(255,107,26,0.08)]">
           <p className="text-sm leading-8 text-[#1A1A1A]/72 sm:text-base">
-            This application is here to make the first step feel better for everyone. It helps us understand your story before we ever ask for your time, and it helps protect Caroline's time so she can focus on the people who are truly ready.
+            This application helps me understand your story before we ever get on a call. It also helps me focus my time on the people who are truly ready, serious, and aligned with the kind of franchise partners I want to build with.
           </p>
           <p className="mt-3 text-sm leading-8 text-[#1A1A1A]/72 sm:text-base">
-            If that is you, this will feel less like filling out a form and more like opening a door.
+            If that is you, this should feel less like filling out a form and more like opening a door.
           </p>
         </div>
         <div className="mt-7 grid gap-3 sm:max-w-xl sm:grid-cols-2">
@@ -729,7 +729,7 @@ function WelcomeStep() {
             Before You Begin
           </p>
           <p className="mt-3 text-sm leading-7 text-[#1A1A1A]/70 sm:text-base">
-            We are not trying to pressure you. We are trying to see if there is honest alignment between your goals, your readiness, and what this brand needs from its franchise partners.
+            I am not trying to pressure you. I just want to see if there is honest alignment between your goals, your readiness, and what this brand needs from its franchise partners.
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
             {['Built around fit', 'Founder-led', 'Warm but serious', 'Community-minded'].map((pill) => (
@@ -748,7 +748,7 @@ function WelcomeStep() {
         <div className="rounded-[24px] border border-[#FFB387]/20 bg-[linear-gradient(180deg,rgba(255,107,26,0.18),rgba(255,255,255,0.05))] p-5">
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#FFD1B6]">What Caroline is really looking for</p>
           <p className="mt-4 text-base leading-8 text-white/92 sm:text-lg">
-            Someone who is coachable, present, committed to their market, and ready to represent Juiced Fuel like it is their own name on the door.
+            I am looking for someone who is coachable, present, committed to their market, and ready to represent Juiced Fuel like it is their own name on the door.
           </p>
         </div>
         <div className="mt-4 rounded-[24px] border border-white/10 bg-white/6 p-5">
@@ -756,7 +756,7 @@ function WelcomeStep() {
             Why this application matters
           </p>
           <p className="mt-2 text-sm leading-7 text-white/80">
-            Every unqualified call costs time, energy, and focus. This experience is designed to respect the business, respect Caroline, and still make good prospects feel genuinely welcomed.
+            Every unqualified call costs time, energy, and focus. I wanted a better first step that respects the business, protects my time, and still makes the right people feel genuinely welcomed.
           </p>
         </div>
         <div className="mt-5 grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
@@ -915,7 +915,7 @@ function FlagHints({ items }) {
 
 function WizardFooter({ step, onBack, onNext, onSubmit }) {
   return (
-    <div className="fixed inset-x-0 bottom-0 z-20 border-t border-[#1A1A1A]/10 bg-white/96 px-3 py-3 backdrop-blur sm:px-6 sm:py-4">
+    <div className="sticky bottom-0 z-20 mt-8 rounded-[28px] border border-[#1A1A1A]/10 bg-white/96 px-3 py-3 shadow-[0_-10px_40px_rgba(26,26,26,0.05)] backdrop-blur sm:px-4 sm:py-4">
       <div className="mx-auto flex max-w-6xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <button
           type="button"
