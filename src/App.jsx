@@ -700,47 +700,27 @@ function WelcomeStep() {
     <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
       <div>
         <div className="inline-flex rounded-full border border-[#FF6B1A]/20 bg-[#FF6B1A]/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-[#FF6B1A]">
-          A Note From Caroline
+          Franchise Application
         </div>
         <h2 className="mt-5 max-w-2xl text-[2.2rem] font-bold leading-[1.02] tracking-[-0.05em] text-[#1A1A1A] sm:text-5xl">
-          Welcome. If you are here, you are probably looking for more than just a business.
+          We're not for everyone. And that's the point.
         </h2>
         <p className="mt-5 max-w-2xl text-[15px] leading-8 text-[#1A1A1A]/70 sm:text-lg">
-          I built this first step to feel personal, clear, and respectful. Juiced Fuel is growing fast, but I am not looking to hand territories to just anyone. I am looking for people who care about service, community, grit, and building something they can be proud of in their own city.
+          Juiced Fuel is the nation's first B2C fuel delivery franchise. We've delivered 500,000+ gallons, awarded 24+ territories, and crossed $1M in Charleston revenue. We're growing fast, but we're selective about who carries this brand. This application takes about 5 minutes. If you're serious, let's see if we're a match.
         </p>
-        <div className="mt-5 rounded-[30px] border border-[#FF6B1A]/12 bg-[linear-gradient(135deg,#fff4ec,#ffffff)] px-5 py-5 shadow-[0_18px_50px_rgba(255,107,26,0.08)]">
-          <p className="text-sm leading-8 text-[#1A1A1A]/72 sm:text-base">
-            This application helps me understand your story before we ever get on a call. It also helps me focus my time on the people who are truly ready, serious, and aligned with the kind of franchise partners I want to build with.
-          </p>
-          <p className="mt-3 text-sm leading-8 text-[#1A1A1A]/72 sm:text-base">
-            If that is you, this should feel less like filling out a form and more like opening a door.
-          </p>
-        </div>
-        <div className="mt-7 grid gap-3 sm:max-w-xl sm:grid-cols-2">
-          <div className="rounded-[24px] border border-[#1A1A1A]/8 bg-[#fff8f2] px-4 py-4 text-sm leading-7 text-[#1A1A1A]/70">
-            5-7 thoughtful minutes. No awkward phone call just to get started.
-          </div>
-          <div className="rounded-[24px] border border-[#1A1A1A]/8 bg-white px-4 py-4 text-sm leading-7 text-[#1A1A1A]/70">
-            Clear expectations, warm communication, and a serious opportunity.
-          </div>
-        </div>
-        <div className="mt-6 rounded-[28px] border border-[#1A1A1A]/8 bg-white px-5 py-5 shadow-sm">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#1A1A1A]/40">
-            Before You Begin
-          </p>
-          <p className="mt-3 text-sm leading-7 text-[#1A1A1A]/70 sm:text-base">
-            I am not trying to pressure you. I just want to see if there is honest alignment between your goals, your readiness, and what this brand needs from its franchise partners.
-          </p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {['Built around fit', 'Founder-led', 'Warm but serious', 'Community-minded'].map((pill) => (
-              <span
-                key={pill}
-                className="rounded-full bg-[#FFF1E7] px-3 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#A24712]"
-              >
-                {pill}
-              </span>
-            ))}
-          </div>
+        <button
+          type="button"
+          className="mt-7 min-h-14 rounded-[22px] bg-[#FF6B1A] px-7 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-white shadow-lg shadow-[#FF6B1A]/30 transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#e85d10] focus:outline-none focus:ring-4 focus:ring-[#FF6B1A]/25"
+        >
+          Start Application
+        </button>
+        <div className="mt-7 grid gap-3 sm:max-w-xl sm:grid-cols-3">
+          {statCards.map((stat) => (
+            <div key={stat.label} className="rounded-[24px] border border-[#1A1A1A]/8 bg-white px-4 py-4 shadow-sm">
+              <p className="text-2xl font-bold tracking-[-0.04em] text-[#FF6B1A]">{stat.value}</p>
+              <p className="mt-2 text-xs uppercase tracking-[0.18em] text-[#1A1A1A]/55">{stat.label}</p>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -748,28 +728,7 @@ function WelcomeStep() {
         <div className="rounded-[24px] border border-[#FFB387]/20 bg-[linear-gradient(180deg,rgba(255,107,26,0.18),rgba(255,255,255,0.05))] p-5">
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#FFD1B6]">What Caroline is really looking for</p>
           <p className="mt-4 text-base leading-8 text-white/92 sm:text-lg">
-            I am looking for someone who is coachable, present, committed to their market, and ready to represent Juiced Fuel like it is their own name on the door.
-          </p>
-        </div>
-        <div className="mt-4 rounded-[24px] border border-white/10 bg-white/6 p-5">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#FFCFB5]">
-            Why this application matters
-          </p>
-          <p className="mt-2 text-sm leading-7 text-white/80">
-            Every unqualified call costs time, energy, and focus. I wanted a better first step that respects the business, protects my time, and still makes the right people feel genuinely welcomed.
-          </p>
-        </div>
-        <div className="mt-5 grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-          {statCards.map((stat) => (
-            <div key={stat.label} className="rounded-[24px] border border-white/10 bg-white/8 p-4 backdrop-blur">
-              <p className="text-2xl font-bold tracking-[-0.04em] text-[#FFB387]">{stat.value}</p>
-              <p className="mt-2 text-xs uppercase tracking-[0.18em] text-white/60">{stat.label}</p>
-            </div>
-          ))}
-        </div>
-        <div className="mt-5 rounded-[24px] border border-white/10 bg-[#fff]/[0.06] px-4 py-4">
-          <p className="text-sm leading-7 text-white/78">
-            In a future version, this section could hold a short founder welcome video from Caroline so applicants feel the human side of the brand right away.
+            Coachable. Present. Willing to hustle in your market. Ready to treat this like your business, not a side project.
           </p>
         </div>
       </div>
